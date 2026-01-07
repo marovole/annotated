@@ -1,0 +1,123 @@
+---
+import { siteConfig } from '../lib/types';
+
+const links = [
+  { label: 'MLA', href: '/mla' },
+  { label: 'APA 7', href: '/apa-7' },
+  { label: 'Chicago', href: '/chicago' },
+];
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
+  <div class="container mx-auto px-4">
+    <div class="flex h-16 items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="/annotated-bibliography-example/" class="flex items-center gap-2">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" x2="8" y1="13" y2="13"></line>
+            <line x1="16" x2="8" y1="17" y2="17"></line>
+            <line x1="10" x2="8" y1="9" y2="9"></line>
+          </svg>
+        </div>
+        <span class="text-xl font-bold text-slate-900 tracking-tight">
+          annotated<span class="text-blue-600">.help</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Search (Visual Only) -->
+      <div class="hidden md:block w-64">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="Search examples..."
+            class="w-full rounded-md border border-slate-200 bg-slate-50 py-1.5 pl-9 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+            disabled
+          />
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden flex h-10 w-10 items-center justify-center rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+          <line x1="4" x2="20" y1="12" y2="12"></line>
+          <line x1="4" x2="20" y1="6" y2="6"></line>
+          <line x1="4" x2="20" y1="18" y2="18"></line>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="close-icon hidden">
+          <line x1="18" x2="6" y1="6" y2="18"></line>
+          <line x1="6" x2="18" y1="6" y2="18"></line>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden border-t border-slate-100 bg-white px-4 py-4 md:hidden">
+    <nav class="flex flex-col space-y-4">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="text-base font-medium text-slate-600 hover:text-blue-600"
+        >
+          {link.label}
+        </a>
+      ))}
+      <div class="pt-4 border-t border-slate-100">
+        <input
+          type="text"
+          placeholder="Search examples..."
+          class="w-full rounded-md border border-slate-200 bg-slate-50 py-2 pl-4 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none"
+          disabled
+        />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = btn?.querySelector('.menu-icon');
+  const closeIcon = btn?.querySelector('.close-icon');
+
+  btn?.addEventListener('click', () => {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+    
+    // Toggle menu
+    menu?.classList.toggle('hidden');
+    
+    // Toggle icons
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+    
+    // Update a11y
+    btn.setAttribute('aria-expanded', (!isExpanded).toString());
+  });
+</script>

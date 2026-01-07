@@ -1,0 +1,81 @@
+---
+const currentYear = new Date().getFullYear();
+
+const formats = [
+  { label: 'MLA Format', href: '/mla' },
+  { label: 'APA 7 Format', href: '/apa-7' },
+  { label: 'Chicago Format', href: '/chicago' },
+  { label: 'Turabian', href: '/turabian' },
+  { label: 'ASA', href: '/asa' },
+];
+
+const pillars = [
+  { label: 'What is an Annotated Bibliography?', href: '/what-is-annotated-bibliography' },
+  { label: 'Examples Hub', href: '/annotated-bibliography-example/' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<footer class="mt-20 border-t border-slate-200 bg-white pt-12 pb-8">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
+      
+      <!-- Brand & Tagline -->
+      <div class="col-span-1 md:col-span-1">
+        <a href="/" class="mb-4 block text-xl font-bold text-slate-900">
+          annotated<span class="text-blue-600">.help</span>
+        </a>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Copy-paste annotated bibliography examples by format. Simplify your academic writing process with our verified templates.
+        </p>
+      </div>
+
+      <!-- Formats -->
+      <div>
+        <h3 class="mb-4 font-semibold text-slate-900">Citation Formats</h3>
+        <ul class="space-y-2 text-sm">
+          {formats.map((format) => (
+            <li>
+              <a href={format.href} class="text-slate-600 hover:text-blue-600 transition-colors">
+                {format.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h3 class="mb-4 font-semibold text-slate-900">Resources</h3>
+        <ul class="space-y-2 text-sm">
+          {pillars.map((pillar) => (
+            <li>
+              <a href={pillar.href} class="text-slate-600 hover:text-blue-600 transition-colors">
+                {pillar.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Legal / Extra -->
+      <div>
+        <h3 class="mb-4 font-semibold text-slate-900">Legal</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/privacy" class="text-slate-600 hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-slate-600 hover:text-blue-600 transition-colors">Terms of Service</a></li>
+          <li><a href="/cookie-policy" class="text-slate-600 hover:text-blue-600 transition-colors">Cookie Policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="mt-12 flex flex-col items-center justify-between border-t border-slate-100 pt-8 text-sm text-slate-500 sm:flex-row">
+      <p>&copy; {currentYear} annotated.help. All rights reserved.</p>
+      <div class="mt-4 flex space-x-4 sm:mt-0">
+        <!-- Social links could go here -->
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { formatConfig, sourceTypeConfig } from '../../lib/types';
+import SourceTypeCard from '../../components/SourceTypeCard.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'All Examples', href: '/annotated-bibliography-examples/' },
+];
+
+const formats = Object.keys(formatConfig) as (keyof typeof formatConfig)[];
+const sourceTypes = Object.keys(sourceTypeConfig) as (keyof typeof sourceTypeConfig)[];
+
+const title = "Annotated Bibliography Examples (Copy & Paste) | annotated.help";
+const description = "Directory of annotated bibliography examples for all major citation styles. Browse templates for MLA, APA, Chicago, and more.";
+---
+
+<BaseLayout title={title} description={description} pageType="directory">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-12">
+    Annotated Bibliography Examples Directory
+  </h1>
+
+  <div class="space-y-16">
+    {formats.map(format => {
+      const fmt = formatConfig[format];
+      // Only MLA and Chicago are emphasized in Phase 1, but we list all as a directory
+      
+      return (
+        <section id={fmt.slug.split('/').pop()}>
+          <div class="flex items-baseline gap-4 mb-6 border-b border-slate-200 pb-4">
+            <h2 class="text-3xl font-bold text-slate-900">{fmt.label} Examples</h2>
+            <a href={`/${fmt.slug}/`} class="text-blue-600 hover:underline font-medium">
+              View {fmt.label} Hub &rarr;
+            </a>
+          </div>
+          
+          <div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            {sourceTypes.map(type => (
+              <SourceTypeCard format={fmt.slug} sourceType={type} />
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>

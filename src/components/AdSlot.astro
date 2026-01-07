@@ -1,0 +1,25 @@
+---
+interface Props {
+  slot: string;
+  format: 'horizontal' | 'rectangle';
+}
+
+const { slot, format } = Astro.props;
+
+const minHeight = format === 'horizontal' ? 'min-h-[90px]' : 'min-h-[250px]';
+---
+
+<div class="my-8 w-full flex justify-center">
+  <div 
+    class={`relative w-full overflow-hidden rounded-lg bg-slate-100 flex items-center justify-center ${minHeight} ${format === 'rectangle' ? 'max-w-[300px]' : 'max-w-full'}`}
+  >
+    <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-slate-300 tracking-widest pointer-events-none select-none border-2 border-dashed border-slate-200 m-1 rounded">
+      ADVERTISEMENT
+    </div>
+    
+    <!-- Ad Script Placeholders -->
+    <div id={`ad-slot-${slot}`} class="relative z-10">
+      <!-- Ad network script would inject here -->
+    </div>
+  </div>
+</div>

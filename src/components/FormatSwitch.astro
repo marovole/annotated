@@ -1,0 +1,35 @@
+---
+import { formatConfig, type Format } from '../lib/types';
+
+interface Props {
+  currentFormat: Format;
+}
+
+const { currentFormat } = Astro.props;
+
+const formats: Format[] = ['mla', 'apa-7', 'chicago', 'turabian', 'asa'];
+---
+
+<div class="mb-8 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+  <div class="flex space-x-2 border-b border-slate-200 min-w-max">
+    {formats.map((format) => {
+      const config = formatConfig[format];
+      const isActive = currentFormat === format;
+      
+      return (
+        <a
+          href={`/${config.slug}`}
+          class:list={[
+            "inline-flex items-center px-4 py-3 text-sm font-medium transition-colors duration-200 border-b-2 whitespace-nowrap",
+            isActive
+              ? "border-blue-500 text-blue-600 bg-blue-50/50"
+              : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+          ]}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          {config.label}
+        </a>
+      );
+    })}
+  </div>
+</div>

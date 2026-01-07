@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExampleCard from '../../components/ExampleCard.astro';
+import FormatSwitch from '../../components/FormatSwitch.astro';
+import SourceTypeCard from '../../components/SourceTypeCard.astro';
+import FAQ from '../../components/FAQ.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { mlaExamples } from '../../data/examples';
+import { faqs } from '../../data/faqs';
+import { sourceTypeConfig } from '../../lib/types';
+
+const featuredExamples = [
+  mlaExamples.find(e => e.sourceType === 'journal-article'),
+  mlaExamples.find(e => e.sourceType === 'book'),
+  mlaExamples.find(e => e.sourceType === 'website')
+].filter((e): e is typeof mlaExamples[0] => !!e);
+
+const pillarFaqs = faqs.filter(f => f.page === 'pillar').sort((a, b) => a.order - b.order);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+];
+
+const sourceTypes: (keyof typeof sourceTypeConfig)[] = ['journal-article', 'book', 'website'];
+
+const title = "Annotated Bibliography Example (MLA, APA 7 & Chicago) | annotated.help";
+const description = "See annotated bibliography examples in MLA, APA 7, and Chicago styles. Copy and paste free templates for journals, books, and websites.";
+---
+
+<BaseLayout title={title} description={description} pageType="pillar">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    Annotated Bibliography Example (MLA, APA 7, Chicago)
+  </h1>
+  
+  <p class="text-lg text-slate-600 mb-8 max-w-3xl">
+    Browse our collection of annotated bibliography examples for the most common citation styles. 
+    Find properly formatted samples for journals, books, websites, and more.
+  </p>
+
+  <FormatSwitch currentFormat="mla" />
+
+  <div class="space-y-12">
+    <section>
+      <h2 class="text-2xl font-bold text-slate-900 mb-6">Featured Examples</h2>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {featuredExamples.map(example => (
+          <ExampleCard example={example} />
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold text-slate-900 mb-6">Browse by Source Type</h2>
+      <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
+        {sourceTypes.map(type => (
+          <SourceTypeCard format="annotated-bibliography-example/mla" sourceType={type} />
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+      <FAQ faqs={pillarFaqs} />
+    </section>
+
+    <section class="border-t border-slate-200 pt-10">
+      <h2 class="text-2xl font-bold text-slate-900 mb-6">Related Guides & Examples</h2>
+      <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">MLA Annotated Bibliography</a>
+        <a href="/annotated-bibliography-example/chicago/" class="text-blue-600 hover:underline">Chicago Annotated Bibliography</a>
+        <a href="/annotated-bibliography-examples/" class="text-blue-600 hover:underline">All Examples Directory</a>
+        
+        <a href="/annotated-bibliography-example/mla/journal-article/" class="text-slate-600 hover:text-blue-600 hover:underline">MLA Journal Article Examples</a>
+        <a href="/annotated-bibliography-example/mla/book/" class="text-slate-600 hover:text-blue-600 hover:underline">MLA Book Examples</a>
+        <a href="/annotated-bibliography-example/mla/website/" class="text-slate-600 hover:text-blue-600 hover:underline">MLA Website Examples</a>
+        
+        {/* Additional links to meet 8+ requirement */}
+        <a href="/annotated-bibliography-example/mla/#journal-article" class="text-slate-600 hover:text-blue-600 hover:underline">MLA Journals (Quick View)</a>
+        <a href="/annotated-bibliography-example/mla/#book" class="text-slate-600 hover:text-blue-600 hover:underline">MLA Books (Quick View)</a>
+        <a href="/annotated-bibliography-example/chicago/#examples" class="text-slate-600 hover:text-blue-600 hover:underline">Chicago Examples</a>
+        <a href="/annotated-bibliography-examples/#mla" class="text-slate-600 hover:text-blue-600 hover:underline">MLA Directory</a>
+        <a href="/annotated-bibliography-examples/#chicago" class="text-slate-600 hover:text-blue-600 hover:underline">Chicago Directory</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

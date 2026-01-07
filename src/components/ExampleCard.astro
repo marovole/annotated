@@ -1,0 +1,81 @@
+---
+import { type Example, annotationTypeConfig, sourceTypeConfig, formatConfig } from '../lib/types';
+import CopyButton from './CopyButton.astro';
+
+interface Props {
+  example: Example;
+}
+
+const { example } = Astro.props;
+
+const sourceConfig = sourceTypeConfig[example.sourceType];
+const annotationConfig = annotationTypeConfig[example.annotationType];
+const fmtConfig = formatConfig[example.format];
+
+// Color mapping for annotation types
+const badgeColors: Record<string, string> = {
+  blue: 'bg-blue-100 text-blue-700 border-blue-200',
+  green: 'bg-green-100 text-green-700 border-green-200',
+  purple: 'bg-purple-100 text-purple-700 border-purple-200',
+  orange: 'bg-orange-100 text-orange-700 border-orange-200',
+};
+
+const annotationBadgeColor = badgeColors[annotationConfig.color] || badgeColors['blue'];
+---
+
+<article class="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-blue-300 hover:shadow-md">
+  
+  <!-- Header / Metadata -->
+  <div class="flex flex-wrap items-center gap-2 border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+    <!-- Format Badge -->
+    <span class="inline-flex items-center rounded-md bg-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-700 border border-slate-300">
+      {fmtConfig.label}
+    </span>
+    
+    <!-- Source Type Badge -->
+    <span class="inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-0.5 text-xs font-medium text-slate-600 border border-slate-200 shadow-sm">
+      <span class="sr-only">Source Type:</span>
+      <!-- Simple Icon based on slug -->
+      {sourceConfig.slug === 'website' && <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>}
+      {sourceConfig.slug === 'book' && <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>}
+      {sourceConfig.slug === 'journal-article' && <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>}
+      {![ 'website', 'book', 'journal-article' ].includes(sourceConfig.slug) && <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>}
+      {sourceConfig.label}
+    </span>
+
+    <!-- Annotation Type Badge -->
+    <span class={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium border ${annotationBadgeColor} ml-auto`}>
+      {annotationConfig.label}
+    </span>
+  </div>
+
+  <!-- Content -->
+  <div class="flex-1 p-6">
+    
+    <!-- Citation -->
+    <div class="mb-6">
+      <h3 class="mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Citation</h3>
+      <div class="rounded-lg bg-slate-50 p-4 border border-slate-100 text-slate-800 font-serif leading-relaxed text-sm md:text-base">
+        {/* We use set:html here because citations often contain italic tags like <i> */}
+        <div set:html={example.citation} />
+      </div>
+    </div>
+
+    <!-- Annotation -->
+    <div>
+      <h3 class="mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Annotation</h3>
+      <div class="prose prose-slate prose-sm max-w-none text-slate-600 leading-relaxed">
+        {/* Annotations might have paragraph breaks */}
+        <div set:html={example.annotation} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-end gap-3 border-t border-slate-100 bg-slate-50 px-6 py-3">
+    <CopyButton text={example.citation} label="Copy Citation" />
+    <CopyButton text={example.annotation} label="Copy Annotation" />
+    <CopyButton text={`${example.citation}\n\n${example.annotation}`} label="Copy Full Entry" />
+  </div>
+
+</article>

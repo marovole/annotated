@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../components/ExampleCard.astro';
+import SourceTypeCard from '../../../components/SourceTypeCard.astro';
+import FAQ from '../../../components/FAQ.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import { mlaExamples } from '../../../data/examples';
+import { faqs } from '../../../data/faqs';
+
+const examples = mlaExamples.slice(0, 6);
+const mlaFaqs = faqs.filter(f => f.page === 'mla-hub').sort((a, b) => a.order - b.order);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'MLA Examples', href: '/annotated-bibliography-example/mla/' },
+];
+
+const sourceTypes = ['journal-article', 'book', 'website'] as const;
+
+const title = "MLA Annotated Bibliography Example (Copy-Paste Samples) | annotated.help";
+const description = "Free MLA annotated bibliography examples. Copy and paste citations and annotations for journals, books, and websites in MLA 9 format.";
+---
+
+<BaseLayout title={title} description={description} pageType="hub">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    MLA Annotated Bibliography Example
+  </h1>
+
+  <div class="prose prose-slate max-w-none mb-10">
+    <p class="text-lg text-slate-600">
+      Use these MLA annotated bibliography examples to master the format. 
+      All samples follow MLA 9th edition guidelines.
+    </p>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-10">
+    <div class="lg:col-span-2 space-y-10">
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900 mb-6">Latest MLA Examples</h2>
+        <div class="space-y-8">
+          {examples.map(example => (
+            <ExampleCard example={example} />
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
+        <FAQ faqs={mlaFaqs} />
+      </section>
+    </div>
+
+    <aside class="space-y-8">
+      <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+        <h2 class="text-xl font-bold text-blue-900 mb-4">MLA Quick Rules</h2>
+        <ul class="space-y-2 text-sm text-blue-800 list-disc list-inside">
+          <li>Double-space the entire bibliography</li>
+          <li>Use a hanging indent (0.5 inch) for citations</li>
+          <li>Indent annotations 1 inch from left margin</li>
+          <li>Alphabetize entries by author's last name</li>
+          <li>Use Times New Roman, 12-point font</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold text-slate-900 mb-4">Browse by Source Type</h2>
+        <div class="grid gap-3">
+          {sourceTypes.map(type => (
+            <SourceTypeCard format="annotated-bibliography-example/mla" sourceType={type} />
+          ))}
+        </div>
+      </div>
+      
+      <div>
+         <h2 class="text-lg font-bold text-slate-900 mb-4">Other Formats</h2>
+         <div class="space-y-2">
+           <a href="/annotated-bibliography-example/chicago/" class="block p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-sm transition-all">
+             <span class="font-medium text-slate-900">Chicago Examples</span>
+             <span class="block text-xs text-slate-500 mt-1">Notes & Bibliography style</span>
+           </a>
+           <a href="/annotated-bibliography-example/" class="block p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-sm transition-all">
+             <span class="font-medium text-slate-900">All Formats</span>
+             <span class="block text-xs text-slate-500 mt-1">MLA, APA 7, Chicago</span>
+           </a>
+         </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

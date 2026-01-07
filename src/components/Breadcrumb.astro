@@ -1,0 +1,58 @@
+---
+import { type BreadcrumbItem } from '@/lib/types';
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.label,
+    "item": `https://annotated.help${item.href}`
+  }))
+};
+---
+
+<nav aria-label="Breadcrumb" class="mb-6">
+  <ol class="flex flex-wrap items-center text-sm text-slate-500">
+    {items.map((item, index) => (
+      <li class="flex items-center">
+        {index > 0 && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="mx-2 opacity-50"
+          >
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        )}
+        {index === items.length - 1 ? (
+          <span class="font-medium text-slate-900" aria-current="page">
+            {item.label}
+          </span>
+        ) : (
+          <a
+            href={item.href}
+            class="hover:text-blue-600 hover:underline transition-colors duration-200"
+          >
+            {item.label}
+          </a>
+        )}
+      </li>
+    ))}
+  </ol>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</nav>

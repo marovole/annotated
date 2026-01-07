@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../../components/ExampleCard.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import { mlaExamples } from '../../../../data/examples';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (({ paginate }) => {
+  const bookExamples = mlaExamples.filter(e => e.sourceType === 'book');
+  return paginate(bookExamples, { pageSize: 8 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { data: examples } = page;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'MLA Examples', href: '/annotated-bibliography-example/mla/' },
+  { label: 'Books', href: '/annotated-bibliography-example/mla/book/' },
+];
+
+const title = `MLA Annotated Bibliography Example for Books${page.currentPage > 1 ? ` (Page ${page.currentPage})` : ''} | annotated.help`;
+const description = "MLA annotated bibliography book examples. Copy and paste citations and annotations for books and e-books.";
+---
+
+<BaseLayout title={title} description={description} pageType="source-type">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    MLA Annotated Bibliography Example for Books
+  </h1>
+
+  <p class="text-lg text-slate-600 mb-10 max-w-3xl">
+    Find perfect MLA book citation examples for your annotated bibliography. 
+    Includes templates for print books, e-books, and anthologies.
+  </p>
+
+  <div class="space-y-8 mb-12">
+    {examples.map(example => (
+      <ExampleCard example={example} />
+    ))}
+  </div>
+
+  <Pagination 
+    currentPage={page.currentPage} 
+    totalPages={page.lastPage} 
+    baseUrl="/annotated-bibliography-example/mla/book" 
+  />
+
+  <div class="mt-16 bg-slate-50 border border-slate-200 rounded-xl p-8">
+    <h2 class="text-2xl font-bold text-slate-900 mb-4">Quick Template: Book</h2>
+    <div class="font-mono text-sm bg-white p-4 rounded border border-slate-200 text-slate-700 overflow-x-auto">
+      Author(s). <em>Title of Book</em>. Publisher, Year.
+    </div>
+    <p class="mt-4 text-slate-600">
+      <strong>Note:</strong> For e-books, add the URL or DOI at the end.
+    </p>
+  </div>
+
+  <section class="mt-16 border-t border-slate-200 pt-10">
+    <h2 class="text-2xl font-bold text-slate-900 mb-6">Related Examples</h2>
+    <div class="flex gap-4 flex-wrap">
+       <a href="/annotated-bibliography-example/mla/journal-article/" class="text-blue-600 hover:underline">MLA Journals</a>
+       <a href="/annotated-bibliography-example/mla/website/" class="text-blue-600 hover:underline">MLA Websites</a>
+       <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">All MLA Examples</a>
+    </div>
+  </section>
+</BaseLayout>
