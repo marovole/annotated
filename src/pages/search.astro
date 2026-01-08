@@ -1,0 +1,386 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { mlaExamples } from '../data/examples';
+import { apaExamples } from '../data/apa-examples';
+import { chicagoExamples } from '../data/chicago-examples';
+import { formatConfig, sourceTypeConfig, annotationTypeConfig, type Example } from '../lib/types';
+
+// Combine all examples for the search index
+const allExamples: Example[] = [...mlaExamples, ...apaExamples, ...chicagoExamples];
+
+// Create search index data (will be embedded in the page)
+const searchIndex = allExamples.map(ex => ({
+  id: ex.id,
+  format: ex.format,
+  formatLabel: formatConfig[ex.format]?.label || '',
+  sourceType: ex.sourceType,
+  sourceTypeLabel: sourceTypeConfig[ex.sourceType]?.label || '',
+  annotationType: ex.annotationType,
+  annotationTypeLabel: annotationTypeConfig[ex.annotationType]?.label || '',
+  annotationColor: annotationTypeConfig[ex.annotationType]?.color || 'blue',
+  citation: ex.citation,
+  annotation: ex.annotation,
+  topicTag: ex.topicTag || '',
+}));
+
+// Page navigation data
+const pages = [
+  { title: 'MLA Annotated Bibliography Examples', href: '/annotated-bibliography-example/mla/', keywords: 'mla' },
+  { title: 'APA 7 Annotated Bibliography Examples', href: '/annotated-bibliography-example/apa-7/', keywords: 'apa apa7 apa-7' },
+  { title: 'Chicago Annotated Bibliography Examples', href: '/annotated-bibliography-example/chicago/', keywords: 'chicago' },
+  { title: 'MLA Journal Article Examples', href: '/annotated-bibliography-example/mla/journal-article/', keywords: 'mla journal article' },
+  { title: 'MLA Book Examples', href: '/annotated-bibliography-example/mla/book/', keywords: 'mla book' },
+  { title: 'MLA Website Examples', href: '/annotated-bibliography-example/mla/website/', keywords: 'mla website' },
+  { title: 'APA 7 Journal Article Examples', href: '/annotated-bibliography-example/apa-7/journal-article/', keywords: 'apa journal article' },
+  { title: 'APA 7 Book Examples', href: '/annotated-bibliography-example/apa-7/book/', keywords: 'apa book' },
+  { title: 'APA 7 Website Examples', href: '/annotated-bibliography-example/apa-7/website/', keywords: 'apa website' },
+  { title: 'Chicago Journal Article Examples', href: '/annotated-bibliography-example/chicago/journal-article/', keywords: 'chicago journal article' },
+  { title: 'Chicago Book Examples', href: '/annotated-bibliography-example/chicago/book/', keywords: 'chicago book' },
+  { title: 'Chicago Website Examples', href: '/annotated-bibliography-example/chicago/website/', keywords: 'chicago website' },
+];
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'Search', href: '/search/' },
+];
+
+const title = 'Search Examples | annotated.help';
+const description = 'Search annotated bibliography examples by format, source type, or keyword.';
+
+// Badge color mapping
+const badgeColors: Record<string, string> = {
+  blue: 'bg-blue-100 text-blue-700 border-blue-200',
+  green: 'bg-green-100 text-green-700 border-green-200',
+  purple: 'bg-purple-100 text-purple-700 border-purple-200',
+  orange: 'bg-orange-100 text-orange-700 border-orange-200',
+};
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    Search Examples
+  </h1>
+
+  <!-- Search Form -->
+  <div class="mb-10">
+    <div class="flex gap-3 max-w-2xl">
+      <div class="relative flex-1">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+          </svg>
+        </span>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search by keyword, format (MLA, APA, Chicago), or source type..."
+          class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-base text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+          autofocus
+        />
+      </div>
+      <button
+        type="button"
+        id="search-btn"
+        class="rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-colors"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+
+  <!-- Quick Filters -->
+  <div class="mb-8 flex flex-wrap gap-2">
+    <span class="text-sm text-slate-500 mr-2 self-center">Quick search:</span>
+    <button data-search="MLA" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">MLA</button>
+    <button data-search="APA" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">APA 7</button>
+    <button data-search="Chicago" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">Chicago</button>
+    <button data-search="journal" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">Journal</button>
+    <button data-search="book" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">Book</button>
+    <button data-search="website" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">Website</button>
+    <button data-search="psychology" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">Psychology</button>
+    <button data-search="education" class="quick-filter px-3 py-1.5 text-sm rounded-full border border-slate-200 text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-colors">Education</button>
+  </div>
+
+  <!-- Results Container -->
+  <div id="results-container">
+    <!-- Initial state -->
+    <div id="empty-state" class="text-center py-16 px-4 bg-slate-50 rounded-xl border border-slate-200">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-slate-300 mb-4">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+      </svg>
+      <p class="text-lg font-medium text-slate-600 mb-2">Enter a search term to find examples</p>
+      <p class="text-slate-500">Search by format (MLA, APA, Chicago), source type (book, journal, website), or topic.</p>
+    </div>
+  </div>
+
+  <!-- Browse All Section -->
+  <section class="mt-16 border-t border-slate-200 pt-10">
+    <h2 class="text-2xl font-bold text-slate-900 mb-6">Browse All Examples</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <a href="/annotated-bibliography-example/mla/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all">
+        <h3 class="font-bold text-lg text-slate-900 group-hover:text-blue-600 mb-2">MLA Format</h3>
+        <p class="text-sm text-slate-500">{mlaExamples.length} examples</p>
+      </a>
+      <a href="/annotated-bibliography-example/apa-7/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all">
+        <h3 class="font-bold text-lg text-slate-900 group-hover:text-blue-600 mb-2">APA 7 Format</h3>
+        <p class="text-sm text-slate-500">{apaExamples.length} examples</p>
+      </a>
+      <a href="/annotated-bibliography-example/chicago/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all">
+        <h3 class="font-bold text-lg text-slate-900 group-hover:text-blue-600 mb-2">Chicago Format</h3>
+        <p class="text-sm text-slate-500">{chicagoExamples.length} examples</p>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<!-- Embed search data -->
+<script define:vars={{ searchIndex, pages, badgeColors }}>
+  window.searchData = {
+    examples: searchIndex,
+    pages: pages,
+    badgeColors: badgeColors
+  };
+</script>
+
+<script>
+  function initSearch() {
+    const input = document.getElementById('search-input') as HTMLInputElement;
+    const searchBtn = document.getElementById('search-btn');
+    const resultsContainer = document.getElementById('results-container');
+    const quickFilters = document.querySelectorAll('.quick-filter');
+    
+    // @ts-ignore
+    const { examples, pages, badgeColors } = window.searchData;
+
+    function performSearch(query: string) {
+      if (!query || query.length < 2) {
+        showEmptyState();
+        return;
+      }
+
+      const lowerQuery = query.toLowerCase();
+      const terms = lowerQuery.split(/\s+/).filter((t: string) => t.length > 1);
+
+      // Search pages
+      const pageResults = pages.filter((page: any) => 
+        page.title.toLowerCase().includes(lowerQuery) ||
+        page.keywords.toLowerCase().split(' ').some((k: string) => 
+          terms.some((t: string) => k.includes(t) || t.includes(k))
+        )
+      );
+
+      // Search examples
+      const exampleResults = examples.filter((ex: any) => {
+        const searchableText = [
+          ex.citation,
+          ex.annotation,
+          ex.formatLabel,
+          ex.sourceTypeLabel,
+          ex.topicTag,
+        ].join(' ').toLowerCase();
+        
+        return terms.every((term: string) => searchableText.includes(term));
+      }).slice(0, 20);
+
+      renderResults(query, pageResults, exampleResults);
+    }
+
+    function showEmptyState() {
+      if (!resultsContainer) return;
+      resultsContainer.innerHTML = `
+        <div class="text-center py-16 px-4 bg-slate-50 rounded-xl border border-slate-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-slate-300 mb-4">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+          </svg>
+          <p class="text-lg font-medium text-slate-600 mb-2">Enter a search term to find examples</p>
+          <p class="text-slate-500">Search by format (MLA, APA, Chicago), source type (book, journal, website), or topic.</p>
+        </div>
+      `;
+    }
+
+    function renderResults(query: string, pageResults: any[], exampleResults: any[]) {
+      if (!resultsContainer) return;
+
+      if (pageResults.length === 0 && exampleResults.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="text-center py-16 px-4 bg-slate-50 rounded-xl border border-slate-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto text-slate-300 mb-4">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+            </svg>
+            <p class="text-lg font-medium text-slate-600 mb-2">No examples found for "${escapeHtml(query)}"</p>
+            <p class="text-slate-500 mb-6">Try different keywords or browse our collections:</p>
+            <div class="flex flex-wrap justify-center gap-3">
+              <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">MLA Examples</a>
+              <a href="/annotated-bibliography-example/apa-7/" class="text-blue-600 hover:underline">APA 7 Examples</a>
+              <a href="/annotated-bibliography-example/chicago/" class="text-blue-600 hover:underline">Chicago Examples</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+
+      // Page results
+      if (pageResults.length > 0) {
+        html += `
+          <section class="mb-10">
+            <h2 class="text-xl font-bold text-slate-900 mb-4">Pages (${pageResults.length})</h2>
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              ${pageResults.map((page: any) => `
+                <a href="${page.href}" class="block p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-sm transition-all">
+                  <span class="font-medium text-slate-900">${escapeHtml(page.title)}</span>
+                  <span class="block text-xs text-slate-500 mt-1">View examples →</span>
+                </a>
+              `).join('')}
+            </div>
+          </section>
+        `;
+      }
+
+      // Example results
+      html += `
+        <section>
+          <h2 class="text-xl font-bold text-slate-900 mb-4">
+            Examples ${exampleResults.length > 0 ? `(${exampleResults.length}${exampleResults.length === 20 ? '+' : ''})` : ''}
+          </h2>
+          ${exampleResults.length > 0 ? `
+            <div class="space-y-8">
+              ${exampleResults.map((ex: any) => renderExampleCard(ex)).join('')}
+            </div>
+          ` : ''}
+        </section>
+      `;
+
+      resultsContainer.innerHTML = html;
+
+      // Setup copy buttons
+      setupCopyButtons();
+    }
+
+    function renderExampleCard(ex: any) {
+      const colorClass = badgeColors[ex.annotationColor] || badgeColors['blue'];
+      
+      return `
+        <article class="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-blue-300 hover:shadow-md">
+          <div class="flex flex-wrap items-center gap-2 border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+            <span class="inline-flex items-center rounded-md bg-slate-200 px-2.5 py-0.5 text-xs font-medium text-slate-700 border border-slate-300">
+              ${escapeHtml(ex.formatLabel)}
+            </span>
+            <span class="inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-0.5 text-xs font-medium text-slate-600 border border-slate-200 shadow-sm">
+              ${escapeHtml(ex.sourceTypeLabel)}
+            </span>
+            <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium border ${colorClass} ml-auto">
+              ${escapeHtml(ex.annotationTypeLabel)}
+            </span>
+          </div>
+          <div class="flex-1 p-6">
+            <div class="mb-6">
+              <h3 class="mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Citation</h3>
+              <div class="rounded-lg bg-slate-50 p-4 border border-slate-100 text-slate-800 font-serif leading-relaxed text-sm md:text-base">
+                ${ex.citation}
+              </div>
+            </div>
+            <div>
+              <h3 class="mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Annotation</h3>
+              <div class="prose prose-slate prose-sm max-w-none text-slate-600 leading-relaxed">
+                ${ex.annotation}
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-3 border-t border-slate-100 bg-slate-50 px-6 py-3">
+            <button class="copy-btn group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.citation)}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+              <span class="copy-label">Copy Citation</span>
+            </button>
+            <button class="copy-btn group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.annotation)}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+              <span class="copy-label">Copy Annotation</span>
+            </button>
+            <button class="copy-btn group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.citation + '\n\n' + ex.annotation)}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+              <span class="copy-label">Copy Full Entry</span>
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    function escapeHtml(str: string) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function escapeAttr(str: string) {
+      return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function setupCopyButtons() {
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const text = btn.getAttribute('data-text');
+          if (!text) return;
+
+          try {
+            await navigator.clipboard.writeText(text);
+            const label = btn.querySelector('.copy-label');
+            const icon = btn.querySelector('.copy-icon');
+            const originalLabel = label?.textContent;
+            
+            if (label) label.textContent = 'Copied!';
+            if (icon) icon.innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+            btn.classList.add('border-green-500', 'text-green-600', 'bg-green-50');
+            btn.classList.remove('border-slate-200', 'text-slate-600', 'bg-white');
+
+            setTimeout(() => {
+              if (label) label.textContent = originalLabel || 'Copy';
+              if (icon) icon.innerHTML = '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>';
+              btn.classList.remove('border-green-500', 'text-green-600', 'bg-green-50');
+              btn.classList.add('border-slate-200', 'text-slate-600', 'bg-white');
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy:', err);
+          }
+        });
+      });
+    }
+
+    // Event listeners
+    searchBtn?.addEventListener('click', () => {
+      performSearch(input?.value || '');
+    });
+
+    input?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch(input.value);
+      }
+    });
+
+    quickFilters.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const searchTerm = btn.getAttribute('data-search') || '';
+        if (input) input.value = searchTerm;
+        performSearch(searchTerm);
+      });
+    });
+
+    // Check for query param on load
+    const urlParams = new URLSearchParams(window.location.search);
+    const q = urlParams.get('q');
+    if (q && input) {
+      input.value = q;
+      performSearch(q);
+    }
+  }
+
+  // Initialize on page load
+  initSearch();
+  document.addEventListener('astro:page-load', initSearch);
+</script>

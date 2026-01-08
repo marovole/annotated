@@ -7,7 +7,7 @@ interface Props {
 
 const { currentFormat } = Astro.props;
 
-const formats: Format[] = ['mla', 'apa-7', 'chicago', 'turabian', 'asa'];
+const formats: Format[] = ['mla', 'apa-7', 'chicago'];
 ---
 
 <div class="mb-8 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
@@ -18,7 +18,7 @@ const formats: Format[] = ['mla', 'apa-7', 'chicago', 'turabian', 'asa'];
       
       return (
         <a
-          href={`/${config.slug}`}
+          href={`/${config.slug}/`}
           class:list={[
             "inline-flex items-center px-4 py-3 text-sm font-medium transition-colors duration-200 border-b-2 whitespace-nowrap",
             isActive

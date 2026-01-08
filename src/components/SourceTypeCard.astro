@@ -10,7 +10,7 @@ interface Props {
 
 const { format, sourceType, count } = Astro.props;
 const config = sourceTypeConfig[sourceType];
-const href = `/${format}/${config.slug}`;
+const href = `/${format}/${config.slug}/`;
 
 // Map icons to SVGs
 const icons: Record<string, string> = {

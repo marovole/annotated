@@ -2,18 +2,14 @@
 const currentYear = new Date().getFullYear();
 
 const formats = [
-  { label: 'MLA Format', href: '/mla' },
-  { label: 'APA 7 Format', href: '/apa-7' },
-  { label: 'Chicago Format', href: '/chicago' },
-  { label: 'Turabian', href: '/turabian' },
-  { label: 'ASA', href: '/asa' },
+  { label: 'MLA Format', href: '/annotated-bibliography-example/mla/' },
+  { label: 'APA 7 Format', href: '/annotated-bibliography-example/apa-7/' },
+  { label: 'Chicago Format', href: '/annotated-bibliography-example/chicago/' },
 ];
 
 const pillars = [
-  { label: 'What is an Annotated Bibliography?', href: '/what-is-annotated-bibliography' },
   { label: 'Examples Hub', href: '/annotated-bibliography-example/' },
-  { label: 'About Us', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'All Examples', href: '/annotated-bibliography-examples/' },
 ];
 ---
 
@@ -62,11 +58,10 @@ const pillars = [
       <!-- Legal / Extra -->
       <div>
         <h3 class="mb-4 font-semibold text-slate-900">Legal</h3>
-        <ul class="space-y-2 text-sm">
-          <li><a href="/privacy" class="text-slate-600 hover:text-blue-600 transition-colors">Privacy Policy</a></li>
-          <li><a href="/terms" class="text-slate-600 hover:text-blue-600 transition-colors">Terms of Service</a></li>
-          <li><a href="/cookie-policy" class="text-slate-600 hover:text-blue-600 transition-colors">Cookie Policy</a></li>
-        </ul>
+        <p class="text-sm text-slate-500">
+          &copy; {currentYear} annotated.help<br />
+          All rights reserved.
+        </p>
       </div>
 
     </div>

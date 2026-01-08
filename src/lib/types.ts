@@ -1,12 +1,9 @@
-export type Format = 'mla' | 'apa-7' | 'chicago' | 'turabian' | 'asa';
+export type Format = 'mla' | 'apa-7' | 'chicago';
 
 export type SourceType =
   | 'journal-article'
   | 'book'
-  | 'website'
-  | 'video'
-  | 'news'
-  | 'research-paper';
+  | 'website';
 
 export type AnnotationType = 'summary' | 'evaluation' | 'reflection';
 
@@ -46,8 +43,6 @@ export const formatConfig: Record<Format, { label: string; slug: string }> = {
   mla: { label: 'MLA', slug: 'annotated-bibliography-example/mla' },
   'apa-7': { label: 'APA 7', slug: 'annotated-bibliography-example/apa-7' },
   chicago: { label: 'Chicago', slug: 'annotated-bibliography-example/chicago' },
-  turabian: { label: 'Turabian', slug: 'annotated-bibliography-example/turabian' },
-  asa: { label: 'ASA', slug: 'annotated-bibliography-example/asa' },
 };
 
 export const sourceTypeConfig: Record<
@@ -61,13 +56,6 @@ export const sourceTypeConfig: Record<
   },
   book: { label: 'Book', slug: 'book', icon: 'book-open' },
   website: { label: 'Website', slug: 'website', icon: 'globe' },
-  video: { label: 'Video', slug: 'video', icon: 'play-circle' },
-  news: { label: 'News', slug: 'news', icon: 'rss' },
-  'research-paper': {
-    label: 'Research Paper',
-    slug: 'research-paper',
-    icon: 'file-text',
-  },
 };
 
 export const annotationTypeConfig: Record<
