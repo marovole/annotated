@@ -75,13 +75,14 @@ const badgeColors: Record<string, string> = {
             <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
           </svg>
         </span>
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search by keyword, format (MLA, APA, Chicago), or source type..."
-          class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-base text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
-          autofocus
-        />
+          <input
+            type="text"
+            id="search-input"
+            aria-label="Search by keyword, format, or source type"
+            placeholder="Search by keyword, format (MLA, APA, Chicago), or source type..."
+            class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-12 pr-4 text-base text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+            autofocus
+          />
       </div>
       <button
         type="button"
@@ -297,15 +298,15 @@ const badgeColors: Record<string, string> = {
             </div>
           </div>
           <div class="flex items-center justify-end gap-3 border-t border-slate-100 bg-slate-50 px-6 py-3">
-            <button class="copy-btn group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.citation)}">
+            <button class="copy-btn group flex min-h-[44px] items-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.citation)}">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
               <span class="copy-label">Copy Citation</span>
             </button>
-            <button class="copy-btn group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.annotation)}">
+            <button class="copy-btn group flex min-h-[44px] items-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.annotation)}">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
               <span class="copy-label">Copy Annotation</span>
             </button>
-            <button class="copy-btn group flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.citation + '\n\n' + ex.annotation)}">
+            <button class="copy-btn group flex min-h-[44px] items-center gap-2 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:border-blue-500 hover:text-blue-600 transition-all" data-text="${escapeAttr(ex.citation + '\n\n' + ex.annotation)}">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
               <span class="copy-label">Copy Full Entry</span>
             </button>

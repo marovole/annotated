@@ -46,7 +46,7 @@ const nextUrl = currentPage < totalPages
     {prevUrl ? (
       <a
         href={prevUrl}
-        class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-blue-500 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-blue-500 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label="Previous page"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -54,7 +54,7 @@ const nextUrl = currentPage < totalPages
         </svg>
       </a>
     ) : (
-      <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed">
+      <span class="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
@@ -70,7 +70,7 @@ const nextUrl = currentPage < totalPages
     <div class="hidden space-x-2 md:flex">
       {items.map((item) => {
         if (item.type === 'ellipsis') {
-          return <span class="inline-flex h-10 w-10 items-center justify-center text-slate-400">...</span>;
+          return <span class="inline-flex h-11 w-11 items-center justify-center text-slate-400">...</span>;
         }
 
         const page = item.number;
@@ -80,7 +80,7 @@ const nextUrl = currentPage < totalPages
         if (isCurrent) {
           return (
             <span
-              class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-sm font-medium text-white shadow-sm"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-blue-600 text-sm font-medium text-white shadow-sm"
               aria-current="page"
             >
               {page}
@@ -103,7 +103,7 @@ const nextUrl = currentPage < totalPages
     {nextUrl ? (
       <a
         href={nextUrl}
-        class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-blue-500 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:border-blue-500 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         aria-label="Next page"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -111,7 +111,7 @@ const nextUrl = currentPage < totalPages
         </svg>
       </a>
     ) : (
-      <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed">
+      <span class="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
