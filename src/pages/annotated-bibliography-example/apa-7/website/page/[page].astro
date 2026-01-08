@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../../../components/ExampleCard.astro';
+import Pagination from '../../../../../components/Pagination.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import { apaExamples } from '../../../../../data/apa-examples';
+import type { GetStaticPaths } from 'astro';
+
+const PAGE_SIZE = 8;
+
+export const getStaticPaths = (() => {
+  const pageSize = 8;
+  const websiteExamples = apaExamples.filter(e => e.sourceType === 'website');
+  const totalPages = Math.ceil(websiteExamples.length / pageSize);
+  
+  return Array.from({ length: totalPages - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { page: pageNum } = Astro.params;
+const currentPage = parseInt(pageNum, 10);
+
+const websiteExamples = apaExamples.filter(e => e.sourceType === 'website');
+const totalPages = Math.ceil(websiteExamples.length / PAGE_SIZE);
+const startIndex = (currentPage - 1) * PAGE_SIZE;
+const examples = websiteExamples.slice(startIndex, startIndex + PAGE_SIZE);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'APA 7 Examples', href: '/annotated-bibliography-example/apa-7/' },
+  { label: 'Websites', href: '/annotated-bibliography-example/apa-7/website/' },
+];
+
+const title = `APA 7 Annotated Bibliography Example for Websites (Page ${currentPage}) | annotated.help`;
+const description = "APA 7 annotated bibliography website examples. Copy and paste citations and annotations for web pages in APA 7th edition format.";
+---
+
+<BaseLayout title={title} description={description} pageType="source-type">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    APA 7 Annotated Bibliography Example for Websites
+  </h1>
+
+  <p class="text-lg text-slate-600 mb-10 max-w-3xl">
+    Get accurate APA 7 website citation examples. 
+    Learn how to cite online sources, articles, and pages for your annotated bibliography.
+  </p>
+
+  <div class="space-y-8 mb-12">
+    {examples.map(example => (
+      <ExampleCard example={example} />
+    ))}
+  </div>
+
+  <Pagination 
+    currentPage={currentPage} 
+    totalPages={totalPages} 
+    baseUrl="/annotated-bibliography-example/apa-7/website" 
+  />
+
+  <div class="mt-16 bg-slate-50 border border-slate-200 rounded-xl p-8">
+    <h2 class="text-2xl font-bold text-slate-900 mb-4">Quick Template: Website (APA 7)</h2>
+    <div class="font-mono text-sm bg-white p-4 rounded border border-slate-200 text-slate-700 overflow-x-auto">
+      Author, A. A. (Year, Month Day). <em>Title of page</em>. Site Name. https://www.example.com/page
+    </div>
+    <p class="mt-4 text-slate-600">
+      <strong>Note:</strong> Omit the site name if it's the same as the author. Include retrieval date only for pages that change frequently.
+    </p>
+  </div>
+
+  <section class="mt-16 border-t border-slate-200 pt-10">
+    <h2 class="text-2xl font-bold text-slate-900 mb-6">Related Examples</h2>
+    <div class="flex gap-4 flex-wrap">
+       <a href="/annotated-bibliography-example/apa-7/journal-article/" class="text-blue-600 hover:underline">APA 7 Journals</a>
+       <a href="/annotated-bibliography-example/apa-7/book/" class="text-blue-600 hover:underline">APA 7 Books</a>
+       <a href="/annotated-bibliography-example/apa-7/" class="text-blue-600 hover:underline">All APA 7 Examples</a>
+       <a href="/annotated-bibliography-example/mla/website/" class="text-blue-600 hover:underline">MLA Websites</a>
+       <a href="/annotated-bibliography-example/chicago/website/" class="text-blue-600 hover:underline">Chicago Websites</a>
+    </div>
+  </section>
+</BaseLayout>

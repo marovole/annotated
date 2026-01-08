@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../../components/ExampleCard.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import { mlaExamples } from '../../../../data/examples';
+
+const PAGE_SIZE = 8;
+const websiteExamples = mlaExamples.filter(e => e.sourceType === 'website');
+const examples = websiteExamples.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(websiteExamples.length / PAGE_SIZE);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'MLA Examples', href: '/annotated-bibliography-example/mla/' },
+  { label: 'Websites', href: '/annotated-bibliography-example/mla/website/' },
+];
+
+const title = "MLA Annotated Bibliography Example for Websites | annotated.help";
+const description = "MLA annotated bibliography website examples. Copy and paste citations and annotations for web pages and online articles.";
+---
+
+<BaseLayout title={title} description={description} pageType="source-type">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    MLA Annotated Bibliography Example for Websites
+  </h1>
+
+  <p class="text-lg text-slate-600 mb-10 max-w-3xl">
+    Get accurate MLA website citation examples. 
+    Learn how to cite online sources, articles, and pages for your annotated bibliography.
+  </p>
+
+  <div class="space-y-8 mb-12">
+    {examples.map(example => (
+      <ExampleCard example={example} />
+    ))}
+  </div>
+
+  <Pagination 
+    currentPage={1} 
+    totalPages={totalPages} 
+    baseUrl="/annotated-bibliography-example/mla/website" 
+  />
+
+  <div class="mt-16 bg-slate-50 border border-slate-200 rounded-xl p-8">
+    <h2 class="text-2xl font-bold text-slate-900 mb-4">Quick Template: Website</h2>
+    <div class="font-mono text-sm bg-white p-4 rounded border border-slate-200 text-slate-700 overflow-x-auto">
+      Author(s). "Title of Page." <em>Title of Website</em>, Publisher, Date, URL.
+    </div>
+    <p class="mt-4 text-slate-600">
+      <strong>Note:</strong> Access dates are optional in MLA 9 unless the content has no publication date.
+    </p>
+  </div>
+
+  <section class="mt-16 border-t border-slate-200 pt-10">
+    <h2 class="text-2xl font-bold text-slate-900 mb-6">Related Examples</h2>
+    <div class="flex gap-4 flex-wrap">
+       <a href="/annotated-bibliography-example/mla/journal-article/" class="text-blue-600 hover:underline">MLA Journals</a>
+       <a href="/annotated-bibliography-example/mla/book/" class="text-blue-600 hover:underline">MLA Books</a>
+       <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">All MLA Examples</a>
+       <a href="/annotated-bibliography-example/apa-7/website/" class="text-blue-600 hover:underline">APA 7 Websites</a>
+       <a href="/annotated-bibliography-example/chicago/website/" class="text-blue-600 hover:underline">Chicago Websites</a>
+    </div>
+  </section>
+</BaseLayout>

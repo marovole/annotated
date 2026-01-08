@@ -4,15 +4,11 @@ import ExampleCard from '../../../../components/ExampleCard.astro';
 import Pagination from '../../../../components/Pagination.astro';
 import Breadcrumb from '../../../../components/Breadcrumb.astro';
 import { mlaExamples } from '../../../../data/examples';
-import type { GetStaticPaths } from 'astro';
 
-export const getStaticPaths = (({ paginate }) => {
-  const journalExamples = mlaExamples.filter(e => e.sourceType === 'journal-article');
-  return paginate(journalExamples, { pageSize: 8 });
-}) satisfies GetStaticPaths;
-
-const { page } = Astro.props;
-const { data: examples } = page;
+const PAGE_SIZE = 8;
+const journalExamples = mlaExamples.filter(e => e.sourceType === 'journal-article');
+const examples = journalExamples.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(journalExamples.length / PAGE_SIZE);
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -21,7 +17,7 @@ const breadcrumbs = [
   { label: 'Journal Articles', href: '/annotated-bibliography-example/mla/journal-article/' },
 ];
 
-const title = `MLA Annotated Bibliography Example for Journal Articles${page.currentPage > 1 ? ` (Page ${page.currentPage})` : ''} | annotated.help`;
+const title = "MLA Annotated Bibliography Example for Journal Articles | annotated.help";
 const description = "MLA annotated bibliography journal article examples. Copy and paste citations and annotations for academic journals.";
 ---
 
@@ -44,8 +40,8 @@ const description = "MLA annotated bibliography journal article examples. Copy a
   </div>
 
   <Pagination 
-    currentPage={page.currentPage} 
-    totalPages={page.lastPage} 
+    currentPage={1} 
+    totalPages={totalPages} 
     baseUrl="/annotated-bibliography-example/mla/journal-article" 
   />
 
@@ -66,6 +62,8 @@ const description = "MLA annotated bibliography journal article examples. Copy a
        <a href="/annotated-bibliography-example/mla/book/" class="text-blue-600 hover:underline">MLA Books</a>
        <a href="/annotated-bibliography-example/mla/website/" class="text-blue-600 hover:underline">MLA Websites</a>
        <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">All MLA Examples</a>
+       <a href="/annotated-bibliography-example/apa-7/journal-article/" class="text-blue-600 hover:underline">APA 7 Journal Articles</a>
+       <a href="/annotated-bibliography-example/chicago/journal-article/" class="text-blue-600 hover:underline">Chicago Journal Articles</a>
     </div>
   </section>
 </BaseLayout>

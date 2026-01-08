@@ -114,4 +114,37 @@ export const faqs: FAQ[] = [
       'After the citation, add a blank line and then your annotation paragraph. The annotation should be indented to align with the hanging indent of the citation. Use the same font and spacing as the rest of the bibliography. The annotation typically runs 150-200 words.',
     order: 4,
   },
+  // APA 7 Hub FAQs
+  {
+    id: 'faq-apa-hub-001',
+    page: 'apa-hub',
+    question: 'What are the key features of APA 7 annotated bibliography format?',
+    answer:
+      'APA 7 format uses a hanging indent (first line flush left, subsequent lines indented 0.5 inches), double-spacing throughout, and 12-point Times New Roman or similar font. The citation comes first, followed by the annotation on a new line. Citations follow the author-date format: Author, A. A. (Year). Title. Publisher. Entries are alphabetized by the first author\'s last name.',
+    order: 1,
+  },
+  {
+    id: 'faq-apa-hub-002',
+    page: 'apa-hub',
+    question: 'How do I format journal article citations in APA 7?',
+    answer:
+      'APA 7 journal citations follow this format: Author, A. A., & Author, B. B. (Year). Title of article. Journal Name, Volume(Issue), Page–Page. https://doi.org/xxxxx. Use sentence case for the article title (only capitalize the first word, proper nouns, and the first word after a colon). Italicize the journal name and volume number.',
+    order: 2,
+  },
+  {
+    id: 'faq-apa-hub-003',
+    page: 'apa-hub',
+    question: 'Do I need to include DOIs in APA 7 citations?',
+    answer:
+      'Yes, APA 7 requires DOIs (Digital Object Identifiers) for all sources that have them. Format the DOI as a URL: https://doi.org/xxxxx. Do not put a period after the DOI. If a source does not have a DOI, include the URL of the journal homepage for online articles, or omit it entirely for print sources.',
+    order: 3,
+  },
+  {
+    id: 'faq-apa-hub-004',
+    page: 'apa-hub',
+    question: 'Should the annotation be in first or third person for APA 7?',
+    answer:
+      'APA style generally prefers third person for objective, scholarly writing. Summary annotations typically use third person ("The authors argue..."). However, APA 7 allows first person when discussing your own actions or views, making reflection annotations acceptable in first person ("This source supports my argument..."). Check your instructor\'s preferences.',
+    order: 4,
+  },
 ];

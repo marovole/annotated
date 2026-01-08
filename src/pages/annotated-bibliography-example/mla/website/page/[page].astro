@@ -1,18 +1,30 @@
 ---
-import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import ExampleCard from '../../../../components/ExampleCard.astro';
-import Pagination from '../../../../components/Pagination.astro';
-import Breadcrumb from '../../../../components/Breadcrumb.astro';
-import { mlaExamples } from '../../../../data/examples';
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../../../components/ExampleCard.astro';
+import Pagination from '../../../../../components/Pagination.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import { mlaExamples } from '../../../../../data/examples';
 import type { GetStaticPaths } from 'astro';
 
-export const getStaticPaths = (({ paginate }) => {
+const PAGE_SIZE = 8;
+
+export const getStaticPaths = (() => {
+  const pageSize = 8;
   const websiteExamples = mlaExamples.filter(e => e.sourceType === 'website');
-  return paginate(websiteExamples, { pageSize: 8 });
+  const totalPages = Math.ceil(websiteExamples.length / pageSize);
+  
+  return Array.from({ length: totalPages - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
 }) satisfies GetStaticPaths;
 
-const { page } = Astro.props;
-const { data: examples } = page;
+const { page: pageNum } = Astro.params;
+const currentPage = parseInt(pageNum, 10);
+
+const websiteExamples = mlaExamples.filter(e => e.sourceType === 'website');
+const totalPages = Math.ceil(websiteExamples.length / PAGE_SIZE);
+const startIndex = (currentPage - 1) * PAGE_SIZE;
+const examples = websiteExamples.slice(startIndex, startIndex + PAGE_SIZE);
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -21,7 +33,7 @@ const breadcrumbs = [
   { label: 'Websites', href: '/annotated-bibliography-example/mla/website/' },
 ];
 
-const title = `MLA Annotated Bibliography Example for Websites${page.currentPage > 1 ? ` (Page ${page.currentPage})` : ''} | annotated.help`;
+const title = `MLA Annotated Bibliography Example for Websites (Page ${currentPage}) | annotated.help`;
 const description = "MLA annotated bibliography website examples. Copy and paste citations and annotations for web pages and online articles.";
 ---
 
@@ -44,8 +56,8 @@ const description = "MLA annotated bibliography website examples. Copy and paste
   </div>
 
   <Pagination 
-    currentPage={page.currentPage} 
-    totalPages={page.lastPage} 
+    currentPage={currentPage} 
+    totalPages={totalPages} 
     baseUrl="/annotated-bibliography-example/mla/website" 
   />
 
@@ -65,6 +77,8 @@ const description = "MLA annotated bibliography website examples. Copy and paste
        <a href="/annotated-bibliography-example/mla/journal-article/" class="text-blue-600 hover:underline">MLA Journals</a>
        <a href="/annotated-bibliography-example/mla/book/" class="text-blue-600 hover:underline">MLA Books</a>
        <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">All MLA Examples</a>
+       <a href="/annotated-bibliography-example/apa-7/website/" class="text-blue-600 hover:underline">APA 7 Websites</a>
+       <a href="/annotated-bibliography-example/chicago/website/" class="text-blue-600 hover:underline">Chicago Websites</a>
     </div>
   </section>
 </BaseLayout>

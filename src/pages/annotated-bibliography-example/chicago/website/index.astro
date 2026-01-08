@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../../components/ExampleCard.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import { chicagoExamples } from '../../../../data/chicago-examples';
+
+const PAGE_SIZE = 8;
+const websiteExamples = chicagoExamples.filter(e => e.sourceType === 'website');
+const examples = websiteExamples.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(websiteExamples.length / PAGE_SIZE);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'Chicago Examples', href: '/annotated-bibliography-example/chicago/' },
+  { label: 'Websites', href: '/annotated-bibliography-example/chicago/website/' },
+];
+
+const title = "Chicago Annotated Bibliography Example for Websites | annotated.help";
+const description = "Chicago style annotated bibliography website examples. Copy and paste citations and annotations for web pages in Notes & Bibliography format.";
+---
+
+<BaseLayout title={title} description={description} pageType="source-type">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    Chicago Annotated Bibliography Example for Websites
+  </h1>
+
+  <p class="text-lg text-slate-600 mb-10 max-w-3xl">
+    Get accurate Chicago style website citation examples. 
+    Learn how to cite online sources for your annotated bibliography.
+  </p>
+
+  <div class="space-y-8 mb-12">
+    {examples.map(example => (
+      <ExampleCard example={example} />
+    ))}
+  </div>
+
+  <Pagination 
+    currentPage={1} 
+    totalPages={totalPages} 
+    baseUrl="/annotated-bibliography-example/chicago/website" 
+  />
+
+  <div class="mt-16 bg-slate-50 border border-slate-200 rounded-xl p-8">
+    <h2 class="text-2xl font-bold text-slate-900 mb-4">Quick Template: Website (Chicago)</h2>
+    <div class="font-mono text-sm bg-white p-4 rounded border border-slate-200 text-slate-700 overflow-x-auto">
+      Author/Organization. "Title of Page." Website Name. Last modified Date. URL.
+    </div>
+    <p class="mt-4 text-slate-600">
+      <strong>Note:</strong> Include access date for pages without a clear publication date.
+    </p>
+  </div>
+
+  <section class="mt-16 border-t border-slate-200 pt-10">
+    <h2 class="text-2xl font-bold text-slate-900 mb-6">Related Examples</h2>
+    <div class="flex gap-4 flex-wrap">
+       <a href="/annotated-bibliography-example/chicago/journal-article/" class="text-blue-600 hover:underline">Chicago Journals</a>
+       <a href="/annotated-bibliography-example/chicago/book/" class="text-blue-600 hover:underline">Chicago Books</a>
+       <a href="/annotated-bibliography-example/chicago/" class="text-blue-600 hover:underline">All Chicago Examples</a>
+       <a href="/annotated-bibliography-example/mla/website/" class="text-blue-600 hover:underline">MLA Websites</a>
+       <a href="/annotated-bibliography-example/apa-7/website/" class="text-blue-600 hover:underline">APA 7 Websites</a>
+    </div>
+  </section>
+</BaseLayout>

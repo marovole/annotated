@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ExampleCard from '../../../../components/ExampleCard.astro';
+import Pagination from '../../../../components/Pagination.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import { apaExamples } from '../../../../data/apa-examples';
+
+const PAGE_SIZE = 8;
+const journalExamples = apaExamples.filter(e => e.sourceType === 'journal-article');
+const examples = journalExamples.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(journalExamples.length / PAGE_SIZE);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Annotated Bibliography Example', href: '/annotated-bibliography-example/' },
+  { label: 'APA 7 Examples', href: '/annotated-bibliography-example/apa-7/' },
+  { label: 'Journal Articles', href: '/annotated-bibliography-example/apa-7/journal-article/' },
+];
+
+const title = "APA 7 Annotated Bibliography Example for Journal Articles | annotated.help";
+const description = "APA 7 annotated bibliography journal article examples. Copy and paste citations and annotations with proper DOI formatting.";
+---
+
+<BaseLayout title={title} description={description} pageType="source-type">
+  <Breadcrumb items={breadcrumbs} />
+
+  <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl mb-6">
+    APA 7 Annotated Bibliography Example for Journal Articles
+  </h1>
+
+  <p class="text-lg text-slate-600 mb-10 max-w-3xl">
+    Browse our collection of APA 7 journal article citation examples. 
+    Each entry includes proper author-date formatting and DOI links.
+  </p>
+
+  <div class="space-y-8 mb-12">
+    {examples.map(example => (
+      <ExampleCard example={example} />
+    ))}
+  </div>
+
+  <Pagination 
+    currentPage={1} 
+    totalPages={totalPages} 
+    baseUrl="/annotated-bibliography-example/apa-7/journal-article" 
+  />
+
+  <div class="mt-16 bg-slate-50 border border-slate-200 rounded-xl p-8">
+    <h2 class="text-2xl font-bold text-slate-900 mb-4">Quick Template: Journal Article (APA 7)</h2>
+    <div class="font-mono text-sm bg-white p-4 rounded border border-slate-200 text-slate-700 overflow-x-auto">
+      Author, A. A., & Author, B. B. (Year). Title of article. <em>Journal Name, Volume</em>(Issue), Page–Page. https://doi.org/xxxxx
+    </div>
+    <p class="mt-4 text-slate-600">
+      <strong>Note:</strong> Use sentence case for article titles. Include DOI as a URL when available.
+    </p>
+  </div>
+
+  <section class="mt-16 border-t border-slate-200 pt-10">
+    <h2 class="text-2xl font-bold text-slate-900 mb-6">Related Examples</h2>
+    <div class="flex gap-4 flex-wrap">
+       <a href="/annotated-bibliography-example/apa-7/book/" class="text-blue-600 hover:underline">APA 7 Books</a>
+       <a href="/annotated-bibliography-example/apa-7/website/" class="text-blue-600 hover:underline">APA 7 Websites</a>
+       <a href="/annotated-bibliography-example/apa-7/" class="text-blue-600 hover:underline">All APA 7 Examples</a>
+       <a href="/annotated-bibliography-example/mla/journal-article/" class="text-blue-600 hover:underline">MLA Journal Articles</a>
+       <a href="/annotated-bibliography-example/chicago/journal-article/" class="text-blue-600 hover:underline">Chicago Journal Articles</a>
+    </div>
+  </section>
+</BaseLayout>

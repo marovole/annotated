@@ -4,15 +4,11 @@ import ExampleCard from '../../../../components/ExampleCard.astro';
 import Pagination from '../../../../components/Pagination.astro';
 import Breadcrumb from '../../../../components/Breadcrumb.astro';
 import { mlaExamples } from '../../../../data/examples';
-import type { GetStaticPaths } from 'astro';
 
-export const getStaticPaths = (({ paginate }) => {
-  const bookExamples = mlaExamples.filter(e => e.sourceType === 'book');
-  return paginate(bookExamples, { pageSize: 8 });
-}) satisfies GetStaticPaths;
-
-const { page } = Astro.props;
-const { data: examples } = page;
+const PAGE_SIZE = 8;
+const bookExamples = mlaExamples.filter(e => e.sourceType === 'book');
+const examples = bookExamples.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(bookExamples.length / PAGE_SIZE);
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -21,7 +17,7 @@ const breadcrumbs = [
   { label: 'Books', href: '/annotated-bibliography-example/mla/book/' },
 ];
 
-const title = `MLA Annotated Bibliography Example for Books${page.currentPage > 1 ? ` (Page ${page.currentPage})` : ''} | annotated.help`;
+const title = "MLA Annotated Bibliography Example for Books | annotated.help";
 const description = "MLA annotated bibliography book examples. Copy and paste citations and annotations for books and e-books.";
 ---
 
@@ -44,8 +40,8 @@ const description = "MLA annotated bibliography book examples. Copy and paste ci
   </div>
 
   <Pagination 
-    currentPage={page.currentPage} 
-    totalPages={page.lastPage} 
+    currentPage={1} 
+    totalPages={totalPages} 
     baseUrl="/annotated-bibliography-example/mla/book" 
   />
 
@@ -65,6 +61,8 @@ const description = "MLA annotated bibliography book examples. Copy and paste ci
        <a href="/annotated-bibliography-example/mla/journal-article/" class="text-blue-600 hover:underline">MLA Journals</a>
        <a href="/annotated-bibliography-example/mla/website/" class="text-blue-600 hover:underline">MLA Websites</a>
        <a href="/annotated-bibliography-example/mla/" class="text-blue-600 hover:underline">All MLA Examples</a>
+       <a href="/annotated-bibliography-example/apa-7/book/" class="text-blue-600 hover:underline">APA 7 Books</a>
+       <a href="/annotated-bibliography-example/chicago/book/" class="text-blue-600 hover:underline">Chicago Books</a>
     </div>
   </section>
 </BaseLayout>
